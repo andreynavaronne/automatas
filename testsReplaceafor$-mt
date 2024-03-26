@@ -1,0 +1,30 @@
+# @title Testes Automáticos
+import unittest
+from automata.tm.dtm import DTM
+from parameterized import parameterized
+
+class Test_dtm1 (unittest.TestCase):
+    @parameterized.expand([
+        ['00','ab','#b',True],
+        ['01','abaaa','#b###',True],
+        ['02','','',True],
+        ['03','bbbbb','bbbbb',True],
+        ['04','baabbabb','b##bb#bb',True],
+        ['05','b','b',True],
+        ['06','a','#',True],
+        ['06','aaaaa','#####',True],
+        ['07','baaaaa','b#####',True],
+    ])
+
+    def test_base (self, name, str, expected_output, expected_result):
+        gen = dtm1.read_input_stepwise(str)
+        state,output,_ = dtm_configurations(gen)
+        self.assertEqual(output.strip(dtm1.blank_symbol),expected_output)
+        self.assertTrue(state in dtm1.final_states)
+
+    def test_instance (self):
+        self.assertTrue(isinstance(dtm1,DTM))
+        self.assertSetEqual(dtm1.input_symbols,{'a','b'})
+
+# call your test
+unittest.main(argv=[''], defaultTest='Test_dtm1', verbosity=2, exit=False)
